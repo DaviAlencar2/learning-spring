@@ -13,10 +13,26 @@ public class MathController {
     public Double sum(
         @PathVariable("numberOne")
         String numberOne,
-        @PathVariable("numerTwo")
+        @PathVariable("numberTwo")
         String numberTwo
-    ){
-        return 1D;
+    ) throws Exception 
+
+    {
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new IllegalArgumentException("Algum parametro nao e numerico!");
+        
+        return convertToDouble(numberOne) + convertToDouble(numberTwo);
+    }
+
+    private Double convertToDouble(String number){
+        if (!isNumeric (number) ) throw new IllegalArgumentException("Algum parametro nao e numerico!");
+        String numberFormatted = number.replace(",",".");
+        return Double.parseDouble(numberFormatted);
+        
+    }
+
+    private boolean isNumeric(String strNumber){
+        String number = strNumber.replace(",",".");
+        return number.matches("[+-]?[0-9]*\\.?[0-9]+");
     }
 
 }
