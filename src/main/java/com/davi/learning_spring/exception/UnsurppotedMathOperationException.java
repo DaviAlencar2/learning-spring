@@ -3,8 +3,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class UnssurpotedMathOperationException extends RuntimeException {
-    public UnssurpotedMathOperationException (String exception){
+public class UnsurppotedMathOperationException extends RuntimeException {
+    public UnsurppotedMathOperationException (String exception){
         super(exception);
     }
     

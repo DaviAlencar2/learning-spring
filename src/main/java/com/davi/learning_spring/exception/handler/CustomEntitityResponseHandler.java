@@ -9,7 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.davi.learning_spring.exception.ExceptionResponse;
-import com.davi.learning_spring.exception.UnssurpotedMathOperationException;
+import com.davi.learning_spring.exception.UnsurppotedMathOperationException;
 
 import java.util.Date;
 
@@ -28,7 +28,7 @@ public class CustomEntitityResponseHandler extends ResponseEntityExceptionHandle
 
     }
 
-    @ExceptionHandler(UnssurpotedMathOperationException.class)
+    @ExceptionHandler(UnsurppotedMathOperationException.class)
     public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception ex, WebRequest request){
         ExceptionResponse response = new ExceptionResponse(
             new Date(),
