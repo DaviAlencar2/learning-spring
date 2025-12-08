@@ -3,6 +3,7 @@ package com.davi.learning_spring.controllers;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.davi.learning_spring.exception.UnssurpotedMathOperationException;;
 
 @RestController
 @RequestMapping("/math")
@@ -18,13 +19,13 @@ public class MathController {
     ) throws Exception 
 
     {
-        if (!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new IllegalArgumentException("Algum parametro nao e numerico!");
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new UnssurpotedMathOperationException("Please set a numeric value!");
         
         return convertToDouble(numberOne) + convertToDouble(numberTwo);
     }
 
     private Double convertToDouble(String number){
-        if (!isNumeric (number) ) throw new IllegalArgumentException("Algum parametro nao e numerico!");
+        if (!isNumeric (number) ) throw new UnssurpotedMathOperationException("Please set a numeric value!");
         String numberFormatted = number.replace(",",".");
         return Double.parseDouble(numberFormatted);
         
