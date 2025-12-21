@@ -16,5 +16,5 @@ Link do curso: https://www.udemy.com/course/restful-apis-do-0-a-nuvem-com-spring
 - Deploy: AWS (RDS, ECR, ECS) e GCP (Cloud SQL, Artifact Registry, Cloud Run, GKE)
 - Extras: upload/download de arquivos, Excel/CSV, JasperReports/Apache POI, e-mails (Spring Mail), consumo com React
 
-### [OBS] Irei usar o banco de dados PostgreSQL.
+### [OBS] Irei usar o banco de dados PostgreSQL. E fazer algumas mudanças nas lógicas das aplicações teste conforme eu achar conveniente.
 
