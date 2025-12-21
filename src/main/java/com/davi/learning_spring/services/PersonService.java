@@ -1,8 +1,11 @@
 package com.davi.learning_spring.services;
 
 import com.davi.learning_spring.model.Person;
+
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -25,4 +28,19 @@ public class PersonService {
         return person;
     }
 
+    public List<Person> findAll(){
+        List<Person> persons = new ArrayList<Person>();
+
+        for (int i = 0; i < 8; i++) {
+            Person person = new Person();
+            person.setId(counter.incrementAndGet());
+            person.setFirstName("Person Name " + i);
+            person.setLastName("Last Name " + i);
+            person.setAddress("Some Address in Brasil " + i);
+            person.setGender(i % 2 == 0 ? "Male" : "Female");
+            persons.add(person);
+        }
+        
+        return persons;
+    }
 }
