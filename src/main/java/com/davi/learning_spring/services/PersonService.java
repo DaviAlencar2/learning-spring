@@ -14,33 +14,47 @@ public class PersonService {
 
     private final AtomicLong counter = new AtomicLong();
     private Logger logger = Logger.getLogger(PersonService.class.getName());
+    List<Person> persons = new ArrayList<Person>();
+
 
     public Person findByID(String id){
-        logger.info("Finding onie person!");
+        logger.info("Finding one person!");
+        for (Person person : persons) {
+            if (person.getId().toString().equals(id)) {
+                return person;
+            }
+        }
+        return null;
+    }
 
-        Person person = new Person();
+
+    public List<Person> findAll(){
+        logger.info("Finding ALL people!");
+        return persons;
+    }
+
+
+    public Person create(Person person){
+        logger.info("Creating person");
         person.setId(counter.incrementAndGet());
-        person.setFirstName("Davi");
-        person.setLastName("Bezerra");
-        person.setAddress("João Pessoa - PB - Brasil");
-        person.setGender("Male");
-
+        persons.add(person);
         return person;
     }
 
-    public List<Person> findAll(){
-        List<Person> persons = new ArrayList<Person>();
+    public void delete(String id){
+        logger.info("Deleting person!");
+        persons.removeIf(person -> person.getId().toString().equals(id));
+    }
 
-        for (int i = 0; i < 8; i++) {
-            Person person = new Person();
-            person.setId(counter.incrementAndGet());
-            person.setFirstName("Person Name " + i);
-            person.setLastName("Last Name " + i);
-            person.setAddress("Some Address in Brasil " + i);
-            person.setGender(i % 2 == 0 ? "Male" : "Female");
-            persons.add(person);
+    public Person update(Person person){
+        logger.info("Updating person");
+        for (int i = 0; i < persons.size(); i++) {
+            Person p = persons.get(i);
+            if (p.getId().equals(person.getId())) {
+                persons.set(i, person);
+                break;
+            }
         }
-        
-        return persons;
+        return person;
     }
 }
