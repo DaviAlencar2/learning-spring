@@ -26,13 +26,18 @@ public class PersonController {
     private PersonService personService;
 
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/{id}", 
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Person findById(@PathVariable("id") Long id) {
         return personService.findByID(id);
     }
 
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public List<Person> findAll() {
         return personService.findAll();
     }
@@ -48,8 +53,12 @@ public class PersonController {
     }
 
 
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+    @DeleteMapping(
+        value = "/{id}",
+        produces = MediaType.APPLICATION_JSON_VALUE
+
+    )
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         personService.delete(id);
         return ResponseEntity.noContent().build();
     }
