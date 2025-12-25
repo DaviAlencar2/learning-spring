@@ -9,6 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.davi.learning_spring.exception.ExceptionResponse;
+import com.davi.learning_spring.exception.ResourceNotFoundException;
 import com.davi.learning_spring.exception.UnsurppotedMathOperationException;
 
 import java.util.Date;
@@ -28,8 +29,20 @@ public class CustomEntitityResponseHandler extends ResponseEntityExceptionHandle
 
     }
 
+
     @ExceptionHandler(UnsurppotedMathOperationException.class)
     public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception ex, WebRequest request){
+        ExceptionResponse response = new ExceptionResponse(
+            new Date(),
+            ex.getMessage(),
+            request.getDescription(false)
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleNotFoundExceptions(Exception ex, WebRequest request){
         ExceptionResponse response = new ExceptionResponse(
             new Date(),
             ex.getMessage(),

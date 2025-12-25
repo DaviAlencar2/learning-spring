@@ -1,60 +1,64 @@
 package com.davi.learning_spring.services;
 
+import com.davi.learning_spring.exception.ResourceNotFoundException;
 import com.davi.learning_spring.model.Person;
+import com.davi.learning_spring.repository.PersonRepository;
 
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PersonService {
 
-    private final AtomicLong counter = new AtomicLong();
+    @Autowired
+    PersonRepository repository;
+
     private Logger logger = Logger.getLogger(PersonService.class.getName());
-    List<Person> persons = new ArrayList<Person>();
 
 
-    public Person findByID(String id){
+    public Person findByID(Long id){
         logger.info("Finding one person!");
-        for (Person person : persons) {
-            if (person.getId().toString().equals(id)) {
-                return person;
-            }
-        }
-        return null;
+        return repository.findById(id).orElseThrow(
+            () -> new ResourceNotFoundException("No records found for this id"));
     }
 
 
     public List<Person> findAll(){
         logger.info("Finding ALL people!");
-        return persons;
+        return repository.findAll();
     }
 
 
     public Person create(Person person){
         logger.info("Creating person");
-        person.setId(counter.incrementAndGet());
-        persons.add(person);
-        return person;
+        return repository.save(person);
     }
 
-    public void delete(String id){
+    public void delete(Long id){
         logger.info("Deleting person!");
-        persons.removeIf(person -> person.getId().toString().equals(id));
+        Person person = repository.findById(id).orElseThrow(
+            () -> new ResourceNotFoundException("No records found for this id"));
+        repository.delete(person);
     }
 
     public Person update(Person person){
         logger.info("Updating person");
-        for (int i = 0; i < persons.size(); i++) {
-            Person p = persons.get(i);
-            if (p.getId().equals(person.getId())) {
-                persons.set(i, person);
-                break;
+        Person storedPerson = repository.findById(person.getId()).orElseThrow(
+            () -> new ResourceNotFoundException("No records found for this id"));
+        for (var field : Person.class.getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object newValue = field.get(person);
+                if (newValue != null) {
+                    field.set(storedPerson, newValue);
+                }
+            } catch (IllegalAccessException e) {
+                logger.warning("Failed to access field: " + field.getName());
             }
         }
-        return person;
+        return repository.save(storedPerson);
     }
 }
