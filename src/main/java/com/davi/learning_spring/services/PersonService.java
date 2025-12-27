@@ -4,7 +4,8 @@ import com.davi.learning_spring.exception.ResourceNotFoundException;
 import com.davi.learning_spring.model.Person;
 import com.davi.learning_spring.repository.PersonRepository;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class PersonService {
     @Autowired
     PersonRepository repository;
 
-    private Logger logger = Logger.getLogger(PersonService.class.getName());
+    private Logger logger = LoggerFactory.getLogger(PersonService.class.getName());
 
 
     public Person findByID(Long id){
@@ -56,7 +57,7 @@ public class PersonService {
                     field.set(storedPerson, newValue);
                 }
             } catch (IllegalAccessException e) {
-                logger.warning("Failed to access field: " + field.getName());
+                logger.warn("Failed to access field: " + field.getName());
             }
         }
         return repository.save(storedPerson);
