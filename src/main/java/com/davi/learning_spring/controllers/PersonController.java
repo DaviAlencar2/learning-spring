@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import com.davi.learning_spring.model.Person;
+import com.davi.learning_spring.data.dto.PersonDto;
 
 import com.davi.learning_spring.services.PersonService;
 
@@ -30,7 +30,7 @@ public class PersonController {
         value = "/{id}", 
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person findById(@PathVariable("id") Long id) {
+    public PersonDto findById(@PathVariable("id") Long id) {
         return personService.findByID(id);
     }
 
@@ -38,7 +38,7 @@ public class PersonController {
     @GetMapping(
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<Person> findAll() {
+    public List<PersonDto> findAll() {
         return personService.findAll();
     }
 
@@ -48,7 +48,7 @@ public class PersonController {
         produces = MediaType.APPLICATION_JSON_VALUE, 
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person create(@RequestBody Person personBody) {
+    public PersonDto create(@RequestBody PersonDto personBody) {
         return personService.create(personBody);
     }
 
@@ -69,7 +69,7 @@ public class PersonController {
         produces = MediaType.APPLICATION_JSON_VALUE, 
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person update(@RequestBody Person personBody) {
+    public PersonDto update(@RequestBody PersonDto personBody) {
         return personService.update(personBody);
     }
 

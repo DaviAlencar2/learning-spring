@@ -1,12 +1,9 @@
 package com.davi.learning_spring.data.dto;
 
 import java.io.Serializable;
-import jakarta.persistence.Table;
 import lombok.Data;
 
-
 @Data
-@Table(name = "person")
 public class PersonDto implements Serializable{
     private static final long serialVersionUID = 1L;
     

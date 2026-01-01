@@ -1,6 +1,9 @@
 package com.davi.learning_spring.services;
 
 import com.davi.learning_spring.exception.ResourceNotFoundException;
+import static com.davi.learning_spring.mapper.ObjectMapper.parseListObjects;
+import static com.davi.learning_spring.mapper.ObjectMapper.parseObject;
+import com.davi.learning_spring.data.dto.PersonDto;
 import com.davi.learning_spring.model.Person;
 import com.davi.learning_spring.repository.PersonRepository;
 
@@ -20,23 +23,27 @@ public class PersonService {
     private Logger logger = LoggerFactory.getLogger(PersonService.class.getName());
 
 
-    public Person findByID(Long id){
+    public PersonDto findByID(Long id){
         logger.info("Finding one person!");
-        return repository.findById(id).orElseThrow(
+        var entity = repository.findById(id).orElseThrow(
             () -> new ResourceNotFoundException("No records found for this id"));
+        return parseObject(entity, PersonDto.class);
     }
 
 
-    public List<Person> findAll(){
+    public List<PersonDto> findAll(){
         logger.info("Finding ALL people!");
-        return repository.findAll();
+        return parseListObjects(repository.findAll(), PersonDto.class);
     }
 
 
-    public Person create(Person person){
+    public PersonDto create(PersonDto person){
         logger.info("Creating person");
-        return repository.save(person);
+        var entity = parseObject(person, Person.class);
+
+        return parseObject(repository.save(entity), PersonDto.class);
     }
+
 
     public void delete(Long id){
         logger.info("Deleting person!");
@@ -45,21 +52,30 @@ public class PersonService {
         repository.delete(person);
     }
 
-    public Person update(Person person){
+
+    public PersonDto update(PersonDto person){
         logger.info("Updating person");
+
         Person storedPerson = repository.findById(person.getId()).orElseThrow(
             () -> new ResourceNotFoundException("No records found for this id"));
-        for (var field : Person.class.getDeclaredFields()) {
+        
+        PersonDto storedPersonDto = parseObject(storedPerson, PersonDto.class);
+
+        for (var field : PersonDto.class.getDeclaredFields()) {
             field.setAccessible(true);
             try {
                 Object newValue = field.get(person);
-                if (newValue != null) {
-                    field.set(storedPerson, newValue);
+                if (newValue != null && !field.getName().equals("id")) {
+                    System.out.println("Entrou no if de update" + field.getName() + " = " + newValue);
+                    field.set(storedPersonDto, newValue);
                 }
             } catch (IllegalAccessException e) {
                 logger.warn("Failed to access field: " + field.getName());
             }
         }
-        return repository.save(storedPerson);
+
+        storedPerson = parseObject(storedPersonDto, Person.class);
+
+        return parseObject(repository.save(storedPerson), PersonDto.class);
     }
 }
