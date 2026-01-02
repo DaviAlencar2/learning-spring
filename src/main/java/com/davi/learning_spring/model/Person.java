@@ -41,5 +41,4 @@ public class Person implements Serializable{
         this.address = address;
         this.gender = gender;
     }
-
 }
