@@ -1,7 +1,7 @@
 package com.davi.learning_spring.model;
 
 import java.io.Serializable;
-
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,13 +32,12 @@ public class Person implements Serializable{
     @Column(nullable = true, length = 6)
     private String gender;
 
+    @Column(name = "birth_day", nullable = true)
+    private LocalDate birthDay;
+
+    @Column(name = "phone_number", nullable = true)
+    private String phoneNumber;
+
     public Person(){}
 
-    public Person (Long id, String firstName, String lastName, String address, String gender){
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.gender = gender;
-    }
 }
