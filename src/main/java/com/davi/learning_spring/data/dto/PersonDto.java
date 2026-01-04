@@ -20,6 +20,7 @@ import lombok.Data;
 public class PersonDto implements Serializable{
     private static final long serialVersionUID = 1L;
     
+    @JsonIgnore
     private Long id;
 
     @JsonProperty("first_name")
@@ -42,14 +43,5 @@ public class PersonDto implements Serializable{
     private String phoneNumber;
 
     public PersonDto(){}
-
-    public PersonDto (Long id, String firstName, String lastName, String address, String gender, LocalDate birthDay){
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.gender = gender;
-        this.birthDay = birthDay;
-    }
 
 }
